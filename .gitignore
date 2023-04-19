@@ -10,6 +10,7 @@
 
 # target etc
 target
+.allure
 
 # BlueJ files
 *.ctxt

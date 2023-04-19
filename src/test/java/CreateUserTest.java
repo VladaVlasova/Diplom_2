@@ -1,9 +1,13 @@
+import org.junit.After;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
+import ru.praktikum.burgers.api.user.CreateUser;
+import ru.praktikum.burgers.api.user.DeleteUser;
+import ru.praktikum.burgers.api.util.TestFields;
 
 public class CreateUserTest {
     CreateUser createUser = new CreateUser();
@@ -18,7 +22,7 @@ public class CreateUserTest {
         assertEquals(200, TestFields.response.statusCode());
         assertTrue(TestFields.response.path("success").equals(true));
         TestFields.accessTokenAfterRegister = TestFields.response.path("accessToken");
-        deleteUser.deleteUser();
+       // deleteUser.deleteUser();
     }
     @Test
     @DisplayName("Регистрация существующего юзера")
@@ -42,6 +46,10 @@ public class CreateUserTest {
         TestFields.response.prettyPrint();
         assertEquals(403, TestFields.response.statusCode());
         assertTrue(TestFields.response.path("message").equals("Email, password and name are required fields"));
+    }
+    @After
+    public void deleteUser() {
+        deleteUser.deleteUser();
     }
 
 }

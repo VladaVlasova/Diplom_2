@@ -1,6 +1,14 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.After;
 import org.junit.Test;
+import ru.praktikum.burgers.api.order.CreateOrder;
+import ru.praktikum.burgers.api.order.GetUserOrders;
+import ru.praktikum.burgers.api.order.Ingredients;
+import ru.praktikum.burgers.api.user.CreateUser;
+import ru.praktikum.burgers.api.user.DeleteUser;
+import ru.praktikum.burgers.api.user.LogInUser;
+import ru.praktikum.burgers.api.util.TestFields;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -28,7 +36,7 @@ public class GetOrders {
         getUserOrders.getOrders();
         assertEquals(200, TestFields.response.statusCode());
         assertTrue(TestFields.response.path("success").equals(true));
-        deleteUser.deleteUser();
+        //deleteUser.deleteUser();
     }
     @Test
     @DisplayName("Запрос списка заказов под неавторизованным пользователем")
@@ -37,5 +45,9 @@ public class GetOrders {
         getUserOrders.getOrdersWithoutLogin();
         assertEquals(401, TestFields.response.statusCode());
         assertTrue(TestFields.response.path("success").equals(false));
+    }
+    @After
+    public void deleteUser() {
+        deleteUser.deleteUser();
     }
 }

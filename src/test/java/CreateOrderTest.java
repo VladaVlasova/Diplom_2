@@ -1,7 +1,14 @@
 import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Test;
+import ru.praktikum.burgers.api.order.CreateOrder;
+import ru.praktikum.burgers.api.order.Ingredients;
+import ru.praktikum.burgers.api.user.CreateUser;
+import ru.praktikum.burgers.api.user.DeleteUser;
+import ru.praktikum.burgers.api.user.LogInUser;
+import ru.praktikum.burgers.api.util.TestFields;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,6 +24,7 @@ public class CreateOrderTest {
     @DisplayName("Заказ с авторизацией и ингредиентами")
     @Description("Заказ с авторизацией и ингредиентами возвращает 200")
     public void makeOrderWithLoginAndIngredients() {
+
         createUser.createUser(testFields.email, testFields.password, testFields.name);
         TestFields.accessTokenAfterRegister = TestFields.response.path("accessToken");
         loginUser.loginUser(testFields.email, testFields.password);
@@ -26,7 +34,7 @@ public class CreateOrderTest {
         createOrder.makeOrderWithIngredients();
         assertEquals(200, TestFields.response.statusCode());
         assertTrue(TestFields.response.path("success").equals(true));
-        deleteUser.deleteUser();
+       // deleteUser.deleteUser();
     }
     @Test
     @DisplayName("Заказ с авторизацией без ингредиентов")
@@ -38,7 +46,7 @@ public class CreateOrderTest {
         createOrder.makeOrderWithoutIngredients();
         assertEquals(400, TestFields.response.statusCode());
         assertTrue(TestFields.response.path("success").equals(false));
-        deleteUser.deleteUser();
+        //deleteUser.deleteUser();
     }
     @Test
     @DisplayName("Заказ без авторизации с ингредиентами")
@@ -60,6 +68,10 @@ public class CreateOrderTest {
         loginUser.loginUser(testFields.email, testFields.password);
         createOrder.makeOrderWithInvalidIngredients();
         assertEquals(500, TestFields.response.statusCode());
+        //deleteUser.deleteUser();
+    }
+    @After
+    public void deleteUser() {
         deleteUser.deleteUser();
     }
 }

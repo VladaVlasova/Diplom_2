@@ -1,6 +1,12 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.After;
 import org.junit.Test;
+import ru.praktikum.burgers.api.user.CreateUser;
+import ru.praktikum.burgers.api.user.DeleteUser;
+import ru.praktikum.burgers.api.user.LogInUser;
+import ru.praktikum.burgers.api.user.UserData;
+import ru.praktikum.burgers.api.util.TestFields;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -27,7 +33,7 @@ public class UserDataEditTest {
         assertEquals(200, TestFields.response.statusCode());
         TestFields.newName = TestFields.response.path("user.name");
         assertEquals(TestFields.newName.toLowerCase(), ("NEW" + testFields.name).toLowerCase());
-        deleteUser.deleteUser();
+       // deleteUser.deleteUser();
     }
     @Test
     @DisplayName("Обновление данных юзера без логина")
@@ -38,6 +44,10 @@ public class UserDataEditTest {
         userData.updateUserInfoWithoutLogin("NEW" + testFields.email, "NEW" + testFields.name);
         assertEquals(401, TestFields.response.statusCode());
         assertTrue(TestFields.response.path("message").equals("You should be authorised"));
+    }
+    @After
+    public void deleteUser() {
+        deleteUser.deleteUser();
     }
 
 }
